@@ -3,9 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Job Application Tracker</title>
 </head>
 <body>
-    
+    <h1>Job Application Tracker</h1>
+
+    <button onclick="location.href='add.html'">Add New Job</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date & Time</th>
+                <th>Company Name</th>
+                <th>Job Role</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="jobTable"></tbody>
+    </table>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Add New Job</title>
+</head>
+<body>
+    <h1>Add New Job</h1>
+
+    <form id="jobForm">
+        <input type="text" id="company" placeholder="Company Name" required>
+        <input type="text" id="role" placeholder="Job Role" required>
+        <textarea id="description" placeholder="Job Description" required></textarea>
+        <input type="date" id="deadline">
+
+        <button type="button" onclick="addJob()">Add</button>
+        <button type="button" onclick="window.location.href='index.html'">Discard</button>
+    </form>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
