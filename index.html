@@ -3,30 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>Job Application Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
-    <h1>Job Application Tracker</h1>
+    <div class="container">
+        <header>
+            <h1>Job Application Tracker</h1>
+            <button id="addJobBtn" onclick="window.location.href='add-job.html'">Add New Application</button>
+        </header>
 
-    <button onclick="location.href='add.html'">Add New Job</button>
+        <div class="applications-container">
+            <table id="applicationsTable">
+                <thead>
+                    <tr>
+                        <th>Date Added</th>
+                        <th>Company Name</th>
+                        <th>Job Role</th>
+                        <th>Deadline</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="applicationsTableBody">
+                    <!-- Applications will be loaded here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Date & Time</th>
-                <th>Company Name</th>
-                <th>Job Role</th>
-                <th>Description</th>
-                <th>Deadline</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="jobTable"></tbody>
-    </table>
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Application</h2>
+            <form id="editForm">
+                <input type="hidden" id="editJobId">
+                <div class="form-group">
+                    <label for="editCompanyName">Company Name:</label>
+                    <input type="text" id="editCompanyName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editJobRole">Job Role:</label>
+                    <input type="text" id="editJobRole" required>
+                </div>
+                <div class="form-group">
+                    <label for="editJobDescription">Job Description:</label>
+                    <textarea id="editJobDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editDeadline">Deadline (Optional):</label>
+                    <input type="date" id="editDeadline">
+                </div>
+                <div class="form-buttons">
+                    <button type="button" id="cancelEditBtn">Cancel</button>
+                    <button type="submit">Update Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

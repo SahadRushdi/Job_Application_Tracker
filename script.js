@@ -1,66 +1,154 @@
-// Firebase Config
+// Firebase configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://application-tracker-ce334-default-rtdb.asia-southeast1.firebasedatabase.app/",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
+    apiKey: "YOUR_API_KEY", // Add your Firebase API key
+    authDomain: "application-tracker-ce334.firebaseapp.com",
+    databaseURL: "https://application-tracker-ce334-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "application-tracker-ce334",
+    storageBucket: "application-tracker-ce334.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
     appId: "YOUR_APP_ID"
-  };
-  
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-  
-  // Add New Job
-  function addJob() {
-      const company = document.getElementById("company").value;
-      const role = document.getElementById("role").value;
-      const description = document.getElementById("description").value;
-      const deadline = document.getElementById("deadline").value || "No Deadline";
-      const timestamp = new Date().toLocaleString();
-  
-      const jobRef = db.ref("jobs").push();
-      jobRef.set({
-          company,
-          role,
-          description,
-          deadline,
-          timestamp
-      });
-  
-      window.location.href = "index.html";
-  }
-  
-  // Read Data & Display in Table
-  db.ref("jobs").on("value", (snapshot) => {
-      const jobTable = document.getElementById("jobTable");
-      jobTable.innerHTML = "";
-  
-      snapshot.forEach((childSnapshot) => {
-          const job = childSnapshot.val();
-          jobTable.innerHTML += `
-              <tr>
-                  <td>${job.timestamp}</td>
-                  <td>${job.company}</td>
-                  <td>${job.role}</td>
-                  <td>${job.description}</td>
-                  <td>${job.deadline}</td>
-                  <td>
-                      <button onclick="updateJob('${childSnapshot.key}', '${job.company}', '${job.role}', '${job.description}', '${job.deadline}')">Update</button>
-                      <button onclick="deleteJob('${childSnapshot.key}')">Delete</button>
-                  </td>
-              </tr>`;
-      });
-  });
-  
-  // Delete Job
-  function deleteJob(id) {
-      db.ref("jobs/" + id).remove();
-  }
-  
-  // Update Job (Redirects to add page with pre-filled data)
-  function updateJob(id, company, role, description, deadline) {
-      window.location.href = `add.html?id=${id}&company=${company}&role=${role}&description=${description}&deadline=${deadline}`;
-  }
-  
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// DOM elements
+const applicationsTableBody = document.getElementById('applicationsTableBody');
+const editModal = document.getElementById('editModal');
+const closeBtn = document.querySelector('.close');
+const cancelEditBtn = document.getElementById('cancelEditBtn');
+const editForm = document.getElementById('editForm');
+const editJobId = document.getElementById('editJobId');
+const editCompanyName = document.getElementById('editCompanyName');
+const editJobRole = document.getElementById('editJobRole');
+const editJobDescription = document.getElementById('editJobDescription');
+const editDeadline = document.getElementById('editDeadline');
+
+// Load applications from Firebase
+function loadApplications() {
+    const applicationsRef = database.ref('applications');
+    applicationsRef.on('value', (snapshot) => {
+        const applications = snapshot.val();
+        applicationsTableBody.innerHTML = '';
+        
+        if (applications) {
+            Object.keys(applications).forEach((key) => {
+                const app = applications[key];
+                const row = document.createElement('tr');
+                
+                // Format the date for display
+                const dateAdded = new Date(app.dateAdded);
+                const formattedDate = dateAdded.toLocaleDateString() + ' ' + 
+                    dateAdded.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                // Format deadline or display "None"
+                const deadlineDisplay = app.deadline ? new Date(app.deadline).toLocaleDateString() : "None";
+                
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${app.companyName}</td>
+                    <td>${app.jobRole}</td>
+                    <td>${deadlineDisplay}</td>
+                    <td class="action-buttons">
+                        <button class="edit-btn" data-id="${key}">Edit</button>
+                        <button class="delete-btn" data-id="${key}">Delete</button>
+                    </td>
+                `;
+                applicationsTableBody.appendChild(row);
+            });
+            
+            // Add event listeners to the buttons
+            attachButtonListeners();
+        }
+    });
+}
+
+// Attach event listeners to edit and delete buttons
+function attachButtonListeners() {
+    // Edit button listeners
+    const editButtons = document.querySelectorAll('.edit-btn');
+    editButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const jobId = button.getAttribute('data-id');
+            openEditModal(jobId);
+        });
+    });
+    
+    // Delete button listeners
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const jobId = button.getAttribute('data-id');
+            if (confirm('Are you sure you want to delete this application?')) {
+                deleteApplication(jobId);
+            }
+        });
+    });
+}
+
+// Open edit modal and populate with application data
+function openEditModal(jobId) {
+    const applicationRef = database.ref('applications/' + jobId);
+    applicationRef.once('value').then((snapshot) => {
+        const application = snapshot.val();
+        if (application) {
+            editJobId.value = jobId;
+            editCompanyName.value = application.companyName;
+            editJobRole.value = application.jobRole;
+            editJobDescription.value = application.jobDescription;
+            editDeadline.value = application.deadline || '';
+            
+            editModal.style.display = 'block';
+        }
+    });
+}
+
+// Update application in Firebase
+function updateApplication(jobId, applicationData) {
+    return database.ref('applications/' + jobId).update(applicationData);
+}
+
+// Delete application from Firebase
+function deleteApplication(jobId) {
+    return database.ref('applications/' + jobId).remove();
+}
+
+// Event listeners
+window.addEventListener('DOMContentLoaded', loadApplications);
+
+closeBtn.addEventListener('click', () => {
+    editModal.style.display = 'none';
+});
+
+cancelEditBtn.addEventListener('click', () => {
+    editModal.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target === editModal) {
+        editModal.style.display = 'none';
+    }
+});
+
+editForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const jobId = editJobId.value;
+    const applicationData = {
+        companyName: editCompanyName.value,
+        jobRole: editJobRole.value,
+        jobDescription: editJobDescription.value,
+        deadline: editDeadline.value || null
+    };
+    
+    updateApplication(jobId, applicationData)
+        .then(() => {
+            editModal.style.display = 'none';
+            alert('Application updated successfully!');
+        })
+        .catch((error) => {
+            console.error('Error updating application:', error);
+            alert('Error updating application. Please try again.');
+        });
+});
