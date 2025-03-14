@@ -1,18 +1,3 @@
-// Firebase configuration
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY", // Add your Firebase API key
-    authDomain: "application-tracker-ce334.firebaseapp.com",
-    databaseURL: "https://application-tracker-ce334-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "application-tracker-ce334",
-    storageBucket: "application-tracker-ce334.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-
 // DOM elements
 const applicationsTableBody = document.getElementById('applicationsTableBody');
 const editModal = document.getElementById('editModal');
@@ -27,8 +12,9 @@ const editDeadline = document.getElementById('editDeadline');
 
 // Load applications from Firebase
 function loadApplications() {
-    const applicationsRef = database.ref('applications');
-    applicationsRef.on('value', (snapshot) => {
+    const applicationsRef = window.databaseRef(window.firebaseDatabase, 'applications');
+    
+    window.databaseOnValue(applicationsRef, (snapshot) => {
         const applications = snapshot.val();
         applicationsTableBody.innerHTML = '';
         
@@ -89,8 +75,9 @@ function attachButtonListeners() {
 
 // Open edit modal and populate with application data
 function openEditModal(jobId) {
-    const applicationRef = database.ref('applications/' + jobId);
-    applicationRef.once('value').then((snapshot) => {
+    const applicationRef = window.databaseRef(window.firebaseDatabase, 'applications/' + jobId);
+    
+    window.databaseOnValue(applicationRef, (snapshot) => {
         const application = snapshot.val();
         if (application) {
             editJobId.value = jobId;
@@ -101,17 +88,19 @@ function openEditModal(jobId) {
             
             editModal.style.display = 'block';
         }
-    });
+    }, { once: true });
 }
 
 // Update application in Firebase
 function updateApplication(jobId, applicationData) {
-    return database.ref('applications/' + jobId).update(applicationData);
+    const updates = {};
+    updates['applications/' + jobId] = applicationData;
+    return window.databaseUpdate(window.databaseRef(window.firebaseDatabase), updates);
 }
 
 // Delete application from Firebase
 function deleteApplication(jobId) {
-    return database.ref('applications/' + jobId).remove();
+    return window.databaseRemove(window.databaseRef(window.firebaseDatabase, 'applications/' + jobId));
 }
 
 // Event listeners
