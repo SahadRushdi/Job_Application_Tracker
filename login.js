@@ -28,7 +28,7 @@ signupBtn.addEventListener('click', () => {
     createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
             alert("User signed up successfully!");
-            window.location.href = "index.html"; 
+            window.location.href = "dashboard.html"; 
         })
         .catch((error) => {
             alert(error.message);
@@ -40,7 +40,7 @@ loginBtn.addEventListener('click', () => {
     const password = passwordInput.value;
     signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-            window.location.href = "index.html";
+            window.location.href = "dashboard.html";
         })
         .catch((error) => {
             alert(error.message);
@@ -49,6 +49,6 @@ loginBtn.addEventListener('click', () => {
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        window.location.href = "index.html"; 
+        window.location.href = "dashboard.html"; 
     }
 });

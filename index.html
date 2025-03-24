@@ -3,93 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="loginstyles.css">
     <title>Job Application Tracker</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🧮Job Application Tracker🧮</h1>
-            <button id="addJobBtn" onclick="window.location.href='add-job.html'">Add New Application</button>
-        </header>
-
-        <div class="applications-container">
-            <table id="applicationsTable">
-                <thead>
-                    <tr>
-                        <th>Date Added</th>
-                        <th>Company Name</th>
-                        <th>Job Role</th>
-                        <th>Deadline</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="applicationsTableBody">
-                    <!-- Applications will be loaded here dynamically -->
-                </tbody>
-            </table>
+        <h1>Welcome to the Job Application Tracker</h1>
+        <div id="auth-section">
+            <input type="email" id="email-input" placeholder="Email" />
+            <input type="password" id="password-input" placeholder="Password" />
+            <div class="button-group">
+                <button id="signup-btn">Sign Up</button>
+                <button id="login-btn">Log In</button>
+            </div>
         </div>
     </div>
 
-    <!-- Edit Modal -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Edit Application</h2>
-            <form id="editForm">
-                <input type="hidden" id="editJobId">
-                <div class="form-group">
-                    <label for="editCompanyName">Company Name:</label>
-                    <input type="text" id="editCompanyName" required>
-                </div>
-                <div class="form-group">
-                    <label for="editJobRole">Job Role:</label>
-                    <input type="text" id="editJobRole" required>
-                </div>
-                <div class="form-group">
-                    <label for="editJobDescription">Job Description:</label>
-                    <textarea id="editJobDescription" rows="4" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="editDeadline">Deadline (Optional):</label>
-                    <input type="date" id="editDeadline">
-                </div>
-                <div class="form-buttons">
-                    <button type="button" id="cancelEditBtn">Cancel</button>
-                    <button type="submit">Update Application</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getDatabase, ref, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDgtRjqA7Bd4ZSVwhjMgjVVB5rsI7qNoVY",
-            authDomain: "application-tracker-ce334.firebaseapp.com",
-            databaseURL: "https://application-tracker-ce334-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "application-tracker-ce334",
-            storageBucket: "application-tracker-ce334.firebasestorage.app",
-            messagingSenderId: "505550718775",
-            appId: "1:505550718775:web:632027a85320fe26fa3cb2",
-            measurementId: "G-LTKNE7FMQZ"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-
-        window.firebaseApp = app;
-        window.firebaseDatabase = database;
-        window.databaseRef = ref;
-        window.databaseOnValue = onValue;
-        window.databaseUpdate = update;
-        window.databaseRemove = remove;
-    </script>
-    <script src="script.js" defer></script>
-
-    <!-- <script src="script.js"></script> -->
+    <!-- Firebase SDK -->
+    <script type="module" src="login.js"></script>
 </body>
-
 </html>

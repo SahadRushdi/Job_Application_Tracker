@@ -24,7 +24,7 @@ addJobForm.addEventListener('submit', (e) => {
     addApplication(applicationData)
         .then(() => {
             alert('Application added successfully!');
-            window.location.href = 'index.html';
+            window.location.href = 'dashboard.html';
         })
         .catch((error) => {
             console.error('Error adding application:', error);
@@ -34,6 +34,6 @@ addJobForm.addEventListener('submit', (e) => {
 
 discardBtn.addEventListener('click', () => {
     if (confirm('Are you sure you want to discard this application?')) {
-        window.location.href = 'index.html';
+        window.location.href = 'dashboard.html';
     }
 });
