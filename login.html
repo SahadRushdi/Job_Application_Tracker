@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Tracker Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧮Job Application Tracker🧮</h1>
+        </header>
+
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="loginTab">Login</div>
+                <div class="auth-tab" id="registerTab">Register</div>
+            </div>
+            
+            <div id="loginForm" class="form-section active">
+                <form id="signInForm">
+                    <div class="form-group">
+                        <label for="signInEmail">Email:</label>
+                        <input type="email" id="signInEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signInPassword">Password:</label>
+                        <input type="password" id="signInPassword" required>
+                    </div>
+                    <div class="forgot-password">
+                        <a href="#" id="forgotPassword">Forgot Password?</a>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="registerForm" class="form-section">
+                <form id="signUpForm">
+                    <div class="form-group">
+                        <label for="signUpName">Full Name:</label>
+                        <input type="text" id="signUpName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpEmail">Email:</label>
+                        <input type="email" id="signUpEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpPassword">Password:</label>
+                        <input type="password" id="signUpPassword" required minlength="6">
+                        <small>Password must be at least 6 characters</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpConfirmPassword">Confirm Password:</label>
+                        <input type="password" id="signUpConfirmPassword" required minlength="6">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit">Register</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="resetPasswordForm" class="form-section">
+                <h3>Reset Password</h3>
+                <form id="passwordResetForm">
+                    <div class="form-group">
+                        <label for="resetEmail">Enter your email:</label>
+                        <input type="email" id="resetEmail" required>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" id="backToLogin">Back to Login</button>
+                        <button type="submit">Send Reset Link</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="authMessage" class="auth-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script type="module" src="auth.js"></script>
+</body>
+</html>

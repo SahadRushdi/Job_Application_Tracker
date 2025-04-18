@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Job Application</title>
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Add New Job Application</h1>
+            <div class="user-info">
+                <span class="user-email" id="userDisplay"></span>
+                <button id="backToHomeBtn" onclick="window.location.href='index.html'">Back to Home</button>
+            </div>
         </header>
 
         <div class="add-application-form">
@@ -24,45 +29,43 @@
                 </div>
                 <div class="form-group">
                     <label for="jobDescription">Job Description:</label>
-                    <textarea id="jobDescription" rows="2" required></textarea>
+                    <textarea id="jobDescription" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
                     <label for="deadline">Deadline (Optional):</label>
                     <input type="date" id="deadline">
                 </div>
                 <div style="font-weight: bold;" class="form-buttons">
-                    <button type="button" id="discardBtn" onclick="window.location.href='dashboard.html'">Discard</button>
+                    <button type="button" id="discardBtn" onclick="window.location.href='index.html'">Discard</button>
                     <button type="submit">Add Application</button>
                 </div>
             </form>
         </div>
     </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
-    
-    const firebaseConfig = {
-      apiKey: "AIzaSyDgtRjqA7Bd4ZSVwhjMgjVVB5rsI7qNoVY",
-      authDomain: "application-tracker-ce334.firebaseapp.com",
-      databaseURL: "https://application-tracker-ce334-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "application-tracker-ce334",
-      storageBucket: "application-tracker-ce334.firebasestorage.app",
-      messagingSenderId: "505550718775",
-      appId: "1:505550718775:web:632027a85320fe26fa3cb2",
-      measurementId: "G-LTKNE7FMQZ"
-    };
-    
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-    
-    window.firebaseApp = app;
-    window.firebaseDatabase = database;
-    window.databaseRef = ref;
-    window.databasePush = push;
-  </script>
-  <script src="add-job.js" defer></script>
-
-    <!-- <script src="add-job.js"></script> -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyDgtRjqA7Bd4ZSVwhjMgjVVB5rsI7qNoVY",
+          authDomain: "application-tracker-ce334.firebaseapp.com",
+          databaseURL: "https://application-tracker-ce334-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "application-tracker-ce334",
+          storageBucket: "application-tracker-ce334.firebasestorage.app",
+          messagingSenderId: "505550718775",
+          appId: "1:505550718775:web:632027a85320fe26fa3cb2",
+          measurementId: "G-LTKNE7FMQZ"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        
+        window.firebaseApp = app;
+        window.firebaseDatabase = database;
+        window.databaseRef = ref;
+        window.databasePush = push;
+    </script>
+    <script type="module" src="add-job.js"></script>
 </body>
 </html>
